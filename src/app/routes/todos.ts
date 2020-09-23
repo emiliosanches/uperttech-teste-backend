@@ -28,7 +28,7 @@ router.postAsync(
             description,
             shortName: name
         });
-        return res.status(201).json(todo)
+        return res.status(201).json(todo);
     }
 )
 
@@ -36,15 +36,31 @@ router.putAsync(
     '/:id',
     authenticateRequest,
     async (req: Request, res: Response): Promise<Response> => {
-        const authTokenData = req.tokenData
-        const { id } = req.params
-        const { description, name } = req.body
+        const authTokenData = req.tokenData;
+        const { id } = req.params;
+        const { description, name } = req.body;
 
-        const todoData: Partial<CreateTodoData> = { description, shortName: name }
+        const todoData: Partial<CreateTodoData> = {
+            description,
+            shortName: name
+        };
 
-        await AppCore.updateTodo(authTokenData, id, todoData)
+        await AppCore.updateTodo(authTokenData, id, todoData);
 
-        return res.sendStatus(200)
+        return res.sendStatus(200);
+    }
+)
+
+router.deleteAsync(
+    '/:id',
+    authenticateRequest,
+    async (req: Request, res: Response): Promise<Response> => {
+        const authTokenData = req.tokenData;
+        const { id } = req.params;
+
+        await AppCore.deleteTodo(authTokenData, id);
+
+        return res.sendStatus(200);
     }
 )
 
