@@ -7,9 +7,9 @@ export interface Todo {
     description: string
 }
 
-export type CreateTodoData = Pick<Todo, 'userId' | 'shortName' | 'description'>
+export type CreateTodoData = Pick<Todo, 'shortName' | 'description'>
 
-export const Todo = ({ userId, shortName, description }: CreateTodoData): Todo => ({
+export const Todo = ({ userId, shortName, description }: Omit<Todo, 'id'>): Todo => ({
     id: v4(),
     userId,
     shortName,

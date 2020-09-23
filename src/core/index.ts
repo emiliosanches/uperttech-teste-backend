@@ -14,10 +14,10 @@ import { createUser } from './usecases/createUser'
 import { updateUser } from './usecases/updateUser'
 import { deleteUser } from './usecases/deleteUser'
 
-// import { Todo, CreateTodoData } from './entities/Todo'
+import { Todo, CreateTodoData } from './entities/Todo'
 
 // import { getTodos } from './usecases/getTodos'
-// import { createTodo } from './usecases/createTodo'
+import { createTodo } from './usecases/createTodo'
 // import { updateTodo } from './usecases/updateTodo'
 // import { deleteTodo } from './usecases/deleteTodo'
 
@@ -27,7 +27,7 @@ interface Core {
 
 interface CoreDependencies {
   userRepository: Repository<User>
-  // todoRepository: Repository<Todo>
+  todoRepository: Repository<Todo>
 }
 
 interface CoreUseCases {
@@ -50,13 +50,13 @@ interface CoreUseCases {
     userId: User['id']
   ) => Promise<void>
 
-  /*
+  
   createTodo: (
     AuthTokenData: AuthTokenData | undefined,
     todoData: CreateTodoData
   ) => Promise<Todo>
 
-  getTodos: (authTokenData: AuthTokenData | undefined) => Promise<Todo[]>
+  /*getTodos: (authTokenData: AuthTokenData | undefined) => Promise<Todo[]>
 
   updateTodo: (
     authTokenData: AuthTokenData | undefined,
@@ -72,16 +72,16 @@ interface CoreUseCases {
 }
 
 export const Core: Core = ({
-  userRepository
-  // todoRepository
+  userRepository,
+  todoRepository
 }) => ({
   createUser: createUser(userRepository),
   getUsers: getUsers(userRepository),
   authenticateUser: authenticateUser(userRepository),
   updateUser: updateUser(userRepository),
-  deleteUser: deleteUser(userRepository)
+  deleteUser: deleteUser(userRepository),
 
-  // createTodo: createTodo(todoRepository, userRepository),
+  createTodo: createTodo(todoRepository, userRepository),
   // getTodos: getTodos(todoRepository, userRepository),
   // updateTodo: updateTodo(todoRepository, userRepository),
   // deleteTodo: deleteTodo(todoRepository, userRepository)
