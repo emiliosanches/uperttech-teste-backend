@@ -13,18 +13,11 @@ router.postAsync(
         const { description, name } = req.body;
         const authTokenData = req.tokenData;
         
-        try {
-            const todo = await AppCore.createTodo(authTokenData, {
-                description,
-                shortName: name
-            });
-            return res.status(201).json(todo)
-        } catch (err) {
-            if (err instanceof CoreError)
-                return res.status(400).send();
-            else
-                return res.status(500).send();
-        }
+        const todo = await AppCore.createTodo(authTokenData, {
+            description,
+            shortName: name
+        });
+        return res.status(201).json(todo)
     }
 )
 
