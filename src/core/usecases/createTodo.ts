@@ -8,19 +8,19 @@ export const createTodo = (todoRepository: Repository<Todo>, userRepository: Rep
     authTokenData: AuthTokenData | undefined,
     todoData: CreateTodoData
 ): Promise<Todo> => {
-    const tokenIsValid = validateToken(userRepository)
+    const tokenIsValid = validateToken(userRepository);
 
     if (!authTokenData || !(await tokenIsValid(authTokenData))) {
-        throw PermissionError('Credenciais inválidas')
+        throw PermissionError('Credenciais inválidas');
     }
 
     const todo = Todo({
         userId: authTokenData.id,
         shortName: todoData.shortName,
         description: todoData.description
-    })
+    });
 
-    todoRepository.save(todo)
+    todoRepository.save(todo);
 
-    return todo
+    return todo;
 }
