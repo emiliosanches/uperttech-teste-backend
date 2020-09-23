@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/index.ts",
     "lint": "eslint . --ext .ts",
-    "test": "jest -i"
+    "test": "jest"
   },
   "license": "MIT",
   "dependencies": {

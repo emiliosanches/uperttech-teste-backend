@@ -15,7 +15,7 @@ Diferença entre um caso de uso implementado com Programação Orientada a Objet
 
 class GetUsersUseCase {
   constructor(private userRepository: Repository<User>) {}
-  
+
   async execute(authTokenData: AuthTokenData | undefined): Promise<User[]> {
     // ...
   }
@@ -44,12 +44,13 @@ const getUsersUseCase = getUsers(userRepository)
 const users = await getUsersUseCase(authToken)
 ```
 
-### [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html)
+### [Clean Architecture](https://blog.cleancoder.com/uncle-bob/2012/08/13/the-clean-architecture.html) / Onion Architecure
 
 Modelo arquitetural que visa encapsular as regras de negócio, separando-as da implementação de frameworks específicos, aumentando a testabilidade e a coesão e diminuindo acoplamento.
+Na Uperttech, nós geralmente utilizamos uma variação deste modelo dependendo das necessidades e escopo do projeto.
 
-<img src="./.github/components-uml.jpg" height="400" />
 <img src="./.github/clean-architecture.png" height="400" />
+<img src="./.github/components-uml.jpg" height="400" />
 
 #### Exemplo:
 
