@@ -18,7 +18,7 @@ import { Todo, CreateTodoData } from './entities/Todo'
 
 import { getTodos } from './usecases/getTodos'
 import { createTodo } from './usecases/createTodo'
-// import { updateTodo } from './usecases/updateTodo'
+import { updateTodo } from './usecases/updateTodo'
 // import { deleteTodo } from './usecases/deleteTodo'
 
 interface Core {
@@ -58,13 +58,13 @@ interface CoreUseCases {
 
   getTodos: (authTokenData: AuthTokenData | undefined) => Promise<Todo[]>
 
-  /*updateTodo: (
+  updateTodo: (
     authTokenData: AuthTokenData | undefined,
     todoId: Todo['id'],
     todoData: Partial<CreateTodoData>
   ) => Promise<void>
 
-  deleteTodo: (
+  /*deleteTodo: (
     authTokenData: AuthTokenData | undefined,
     todoId: Todo['id']
   ) => Promise<void>
@@ -83,7 +83,7 @@ export const Core: Core = ({
 
   createTodo: createTodo(todoRepository, userRepository),
   getTodos: getTodos(todoRepository, userRepository),
-  // updateTodo: updateTodo(todoRepository, userRepository),
+  updateTodo: updateTodo(todoRepository, userRepository),
   // deleteTodo: deleteTodo(todoRepository, userRepository)
 })
 
