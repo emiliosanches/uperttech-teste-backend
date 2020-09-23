@@ -49,8 +49,8 @@ const users = await getUsersUseCase(authToken)
 Modelo arquitetural que visa encapsular as regras de negócio, separando-as da implementação de frameworks específicos, aumentando a testabilidade e a coesão e diminuindo acoplamento.
 Na Uperttech, nós geralmente utilizamos uma variação deste modelo dependendo das necessidades e escopo do projeto.
 
-<img src="./.github/clean-architecture.png" height="400" />
-<img src="./.github/components-uml.jpg" height="400" />
+<img src="../.github/clean-architecture.png" height="400" />
+<img src="../.github/components-uml.jpg" height="400" />
 
 #### Exemplo:
 
