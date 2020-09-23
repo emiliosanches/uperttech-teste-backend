@@ -1,30 +1,43 @@
 import { MockRepository } from '../../app/data/MockRepository'
 import { AuthTokenData } from '../entities/AuthToken'
 import { Todo } from '../entities/Todo'
+import { User } from '../entities/User';
 import { deleteTodo } from './deleteTodo'
 
 describe('deleteTodo test', () => {
-  const todoRepository = MockRepository<Todo>('todos_spec')
+    const todoRepository = MockRepository<Todo>('todos_spec')
+    const userRepository = MockRepository<User>('users_spec')
 
-  const todoUserId = 'userid'
-  const todo = Todo({
-    // TODO: Insira aqui os atributos da sua entidade Todo
-  })
+    const user = User({
+        name: 'Test user',
+        email: 'user@test.com',
+        password: '1234'
+    })
 
-  beforeAll(done => {
-    todoRepository.save(todo).then(done)
-  })
+    const todoUserId = user.id;
 
-  const deleteTodoUC = deleteTodo(todoRepository)
+    const todo = Todo({
+        description: 'Todo teste para exclusão',
+        shortName: 'Teste',
+        userId: todoUserId
+    })
+    
+    beforeAll(done => {
+        userRepository.save(user).then(() => {
+            todoRepository.save(todo).then(done)
+        });
+    })
 
-  it('Deve falhar caso o usuário não esteja autentificado', () => {
-    expect(deleteTodoUC(undefined, todo.id)).rejects.toBeDefined()
-  })
+    const deleteTodoUC = deleteTodo(todoRepository, userRepository)
+    
+    it('Deve falhar caso o usuário não esteja autentificado', () => {
+        expect(deleteTodoUC(undefined, todo.id)).rejects.toBeDefined()
+    })
 
-  it('Deve deletar um todo', async () => {
-    const authToken: AuthTokenData = { id: todoUserId }
+    it('Deve deletar um todo', async () => {
+        const authToken: AuthTokenData = { id: todoUserId }
 
-    await expect(deleteTodoUC(authToken, todoUserId)).resolves.toBeUndefined()
-    await expect(todoRepository.find()).resolves.toStrictEqual([])
-  })
+        await expect(deleteTodoUC(authToken, todo.id)).resolves.toBeUndefined()
+        await expect(todoRepository.find()).resolves.toStrictEqual([])
+    })
 })

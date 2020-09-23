@@ -1,25 +1,38 @@
 import { MockRepository } from '../../app/data/MockRepository'
 import { AuthTokenData } from '../entities/AuthToken'
 import { Todo } from '../entities/Todo'
+import { User } from '../entities/User'
 import { updateTodo } from './updateTodo'
 
 describe('updateTodo test', () => {
-  const todoRepository = MockRepository<Todo>('todos_spec')
+    const todoRepository = MockRepository<Todo>('todos_spec')
+    const userRepository = MockRepository<User>('users_spec')
 
-  const todoUserId = 'userid'
-  const todo = Todo({
-    // TODO: Insira aqui os atributos da sua entidade Todo
-  })
+    const user = User({
+        name: 'Test user',
+        email: 'user@test.com',
+        password: '1234'
+    })
 
-  const updateTodoData = {
-    // TODO: Insira aqui os atributos atualizados do seu Todo
-  }
+    const todoUserId = user.id;
 
-  beforeAll(done => {
-    todoRepository.save(todo).then(done)
-  })
+    const todo = Todo({
+        description: 'Todo teste para alteração',
+        shortName: 'Teste',
+        userId: todoUserId
+    })
 
-  const updateTodoUC = updateTodo(todoRepository)
+    const updateTodoData = {
+        description: 'Descrição alterada para o todo teste'
+    }
+
+    beforeAll(done => {
+        userRepository.save(user).then(() => {
+            todoRepository.save(todo).then(done)
+        });
+    })
+
+  const updateTodoUC = updateTodo(todoRepository, userRepository)
 
   it('Deve falhar caso o usuário não esteja autentificado', async () => {
     await expect(
@@ -37,6 +50,6 @@ describe('updateTodo test', () => {
     const updatedTodo = await todoRepository.findOne({ id: todo.id })
 
     // TODO: Testar atributo atualizado
-    expect(updatedTodo?.name).toBe(updateTodoData.name)
+    expect(updatedTodo?.description).toBe(updateTodoData.description)
   })
 })
