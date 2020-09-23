@@ -1,7 +1,6 @@
 import { MockRepository } from '../../app/data/MockRepository'
 import { User } from '../entities/User'
 import { authenticateUser } from './authenticateUser'
-import { createUser } from './createUser'
 
 describe('createUser test', () => {
   const repository = MockRepository<User>('users_spec')

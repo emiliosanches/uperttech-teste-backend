@@ -1,19 +1,21 @@
-import { hashPassword, User, UserData } from '../entities/User'
+import { hashPassword, User, CreateUserData } from '../entities/User'
 import { Repository } from '../data/Repository'
 import {
   CoreError,
   NotFoundError,
   PermissionError
 } from '../entities/CoreError'
-import { AuthTokenData } from '..'
+import { validateToken, AuthTokenData } from '../entities/AuthToken'
 
 export const updateUser = (userRepository: Repository<User>) => async (
   authTokenData: AuthTokenData | undefined,
   userId: User['id'],
-  userData: Partial<UserData>
+  userData: Partial<CreateUserData>
 ): Promise<void> => {
-  if (!authTokenData) {
-    throw PermissionError('A requisição deve estar autentificada')
+  const tokenIsValid = validateToken(userRepository)
+
+  if (!authTokenData || !(await tokenIsValid(authTokenData))) {
+    throw PermissionError('Credenciais inválidas')
   }
 
   const user = await userRepository.findOne({ id: userId })
@@ -28,14 +30,16 @@ export const updateUser = (userRepository: Repository<User>) => async (
     )
   }
 
-  const { password } = userData
+  const { password, name = user.name, email = user.email } = userData
 
-  if (password) {
-    userData.password = hashPassword(password)
+  const userUpdateData = {
+    name,
+    email,
+    password: password ? hashPassword(password) : user.password
   }
 
   try {
-    await userRepository.update({ id: userId }, userData)
+    await userRepository.update({ id: userId }, userUpdateData)
   } catch (error) {
     throw CoreError()
   }

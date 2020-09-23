@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import { Router } from '@awaitjs/express'
-import { UserAuthenticationData, UserData } from '../../core'
+import { UserAuthenticationData, CreateUserData } from '../../core'
 import { AppCore } from '../AppCore'
 import { authenticateRequest } from '../middlewares/authenticateRequest'
 import { Request, Response } from 'express'
@@ -24,7 +24,7 @@ router.postAsync(
   async (req: Request, res: Response): Promise<Response> => {
     const { email, password, name } = req.body
 
-    const userData: UserData = { email, password, name }
+    const userData: CreateUserData = { email, password, name }
 
     const user = await AppCore.createUser(userData)
 
@@ -40,7 +40,7 @@ router.putAsync(
     const { id } = req.params
     const { email, password, name } = req.body
 
-    const userData: UserData = { email, password, name }
+    const userData: CreateUserData = { email, password, name }
 
     await AppCore.updateUser(authTokenData, id, userData)
 

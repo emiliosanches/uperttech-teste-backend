@@ -5,14 +5,16 @@ import {
   NotFoundError,
   PermissionError
 } from '../entities/CoreError'
-import { AuthTokenData } from '..'
+import { AuthTokenData, validateToken } from '../entities/AuthToken'
 
 export const deleteUser = (userRepository: Repository<User>) => async (
   authTokenData: AuthTokenData | undefined,
   userId: User['id']
 ): Promise<void> => {
-  if (!authTokenData) {
-    throw PermissionError('A requisição deve estar autentificada')
+  const tokenIsValid = validateToken(userRepository)
+
+  if (!authTokenData || !(await tokenIsValid(authTokenData))) {
+    throw PermissionError('Credenciais inválidas')
   }
 
   const user = await userRepository.findOne({ id: userId })

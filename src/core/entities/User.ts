@@ -8,7 +8,7 @@ export interface User {
   password: string
 }
 
-export type UserData = Pick<User, 'name' | 'email' | 'password'>
+export type CreateUserData = Pick<User, 'name' | 'email' | 'password'>
 
 export const hashPassword = (plainPassword: string): string =>
   bcrypt.hashSync(plainPassword, 2)
@@ -17,7 +17,7 @@ export const comparePassword = (user: User) => (
   password: string
 ): Promise<boolean> => bcrypt.compare(password, user.password)
 
-export const User = ({ name, email, password }: UserData): User => ({
+export const User = ({ name, email, password }: CreateUserData): User => ({
   id: v4(),
   name,
   email,

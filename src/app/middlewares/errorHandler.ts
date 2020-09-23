@@ -13,7 +13,7 @@ export const errorHandler = (
   res: Response,
   next: NextFunction
 ): Response => {
-  console.log(error.stack)
+  console.log(`${error.name}: "${error.message}"\n${error.stack}`)
 
   if (instanceofHTTPError(error)) {
     return res.status(error.status).send({ message: error.message })

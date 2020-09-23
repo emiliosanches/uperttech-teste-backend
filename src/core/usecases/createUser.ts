@@ -1,9 +1,9 @@
 import { Repository } from '../data/Repository'
-import { User, UserData } from '../entities/User'
+import { User, CreateUserData } from '../entities/User'
 import { CoreError, BadDataError } from '../entities/CoreError'
 
 export const createUser = (userRepository: Repository<User>) => async (
-  userData: UserData
+  userData: CreateUserData
 ): Promise<User> => {
   const anotherUser = await userRepository.findOne({ email: userData.email })
 
